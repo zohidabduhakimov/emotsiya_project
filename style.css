@@ -1,0 +1,972 @@
+/* =====================================================================
+   VeritasEdu - Talabalar va O'quvchilar uchun Emotsiya va Rostlik Tizimi
+   Zamonaviy Glassmorphism & Cyberpunk Dark UI
+   ===================================================================== */
+
+:root {
+    --bg-dark: #0B0F19;
+    --card-bg: rgba(30, 41, 59, 0.7);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --text-primary: #F8FAFC;
+    --text-secondary: #94A3B8;
+    --text-muted: #64748B;
+
+    --color-green: #10B981;
+    --color-blue: #38BDF8;
+    --color-yellow: #F59E0B;
+    --color-red: #EF4444;
+    --color-purple: #8B5CF6;
+
+    --radius-sm: 8px;
+    --radius-md: 14px;
+    --radius-lg: 20px;
+
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background-color: var(--bg-dark);
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.08) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.06) 0px, transparent 50%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--card-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.brand-icon {
+    font-size: 28px;
+    background: linear-gradient(135deg, #38BDF8, #10B981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.brand h1 {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.brand h1 span {
+    font-size: 11px;
+    background: rgba(56, 189, 248, 0.15);
+    color: var(--color-blue);
+    padding: 2px 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(56, 189, 248, 0.3);
+    text-transform: uppercase;
+}
+
+.brand p {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.nav-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.status-pill {
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 1px solid transparent;
+}
+
+.status-pill.inactive {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-muted);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+
+.status-pill.success {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--color-green);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.status-pill.warning {
+    background: rgba(245, 158, 11, 0.15);
+    color: var(--color-yellow);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.status-pill.danger {
+    background: rgba(239, 68, 68, 0.15);
+    color: var(--color-red);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* ASOSIY KONTEYNER */
+.main-container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 24px;
+    width: 100%;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* O'QUVCHI VA MAVZU FORMASI */
+.session-info-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-md);
+    padding: 18px 24px;
+}
+
+.info-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1.5fr auto;
+    gap: 16px;
+    align-items: end;
+}
+
+@media (max-width: 1024px) {
+    .info-form-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .info-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group label {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.form-control {
+    background: rgba(15, 23, 42, 0.7);
+    border: 1px solid var(--card-border);
+    color: var(--text-primary);
+    padding: 10px 14px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    outline: none;
+    transition: var(--transition);
+}
+
+.form-control:focus {
+    border-color: var(--color-blue);
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
+}
+
+.presets-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.preset-title {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.preset-btn {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+    padding: 4px 10px;
+    font-size: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.preset-btn:hover {
+    background: rgba(56, 189, 248, 0.12);
+    color: var(--color-blue);
+    border-color: var(--color-blue);
+}
+
+/* ASOSIY DASHBOARD GRID */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 1100px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* KAMERA VA VIDEO CONTAINER */
+.camera-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    max-height: 520px;
+    background: #000;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#webcam {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scaleX(-1); /* Oyna effekti */
+}
+
+#overlayCanvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    transform: scaleX(-1); /* Videoga mos */
+}
+
+/* VIDEO HUD ELEMENTLARI */
+.hud-overlay {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    right: 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    pointer-events: none;
+}
+
+.hud-pill {
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.hud-pill.timer {
+    color: var(--color-blue);
+}
+
+.hud-pill.gaze {
+    color: var(--text-primary);
+}
+
+/* POLIGRAF KARDIOGRAMMA OYNASI */
+.polygraph-container {
+    background: #050811;
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 10px 14px;
+    position: relative;
+}
+
+.polygraph-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+#polygraphCanvas {
+    width: 100%;
+    height: 80px;
+    display: block;
+}
+
+/* KAMERA BOSHQARUV TUGMALARI */
+.controls-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    transition: var(--transition);
+}
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #10B981, #059669);
+    color: white;
+    box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+}
+
+.btn-primary:hover:not(:disabled) {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #EF4444, #DC2626);
+    color: white;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+}
+
+.btn-danger:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--text-primary);
+    border: 1px solid var(--card-border);
+}
+
+.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.btn-secondary.active {
+    background: rgba(245, 158, 11, 0.2);
+    color: var(--color-yellow);
+    border-color: var(--color-yellow);
+}
+
+/* O'NG PANEL: TAHLIL VA DIAGNOSTIKA */
+.analysis-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.panel-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(12px);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.card-title {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 10px;
+}
+
+.card-title span.badge-info {
+    font-size: 11px;
+    color: var(--color-blue);
+    font-weight: 500;
+}
+
+/* 1. YOLG'ON VA ROSTLIK HISOB-KITOBI (GAUGE) */
+.polygraph-meter-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    padding: 10px 0;
+}
+
+.gauge-box {
+    position: relative;
+    width: 140px;
+    height: 140px;
+}
+
+.gauge-svg {
+    transform: rotate(-90deg);
+}
+
+.gauge-bg {
+    fill: none;
+    stroke: rgba(255, 255, 255, 0.08);
+    stroke-width: 10;
+}
+
+.gauge-progress {
+    fill: none;
+    stroke: var(--color-green);
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 283;
+    stroke-dashoffset: 20;
+    transition: stroke-dashoffset 0.6s ease, stroke 0.4s ease;
+}
+
+.gauge-center-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.gauge-value {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--text-primary);
+}
+
+.gauge-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+}
+
+.meter-status-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.status-badge-lg {
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+    border: 1px solid;
+    letter-spacing: 0.5px;
+}
+
+.metrics-mini-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+}
+
+.metric-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.metric-item .lbl {
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.metric-item .val {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--color-green);
+}
+
+/* 2. EMOTSIYALAR TAHLILI */
+.dominant-emotion-banner {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 12px 16px;
+}
+
+.dominant-emoji {
+    font-size: 38px;
+}
+
+.dominant-info h4 {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.dominant-info p {
+    font-size: 13px;
+    color: var(--text-secondary);
+}
+
+.emotion-bars-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.emo-bar-row {
+    display: grid;
+    grid-template-columns: 100px 1fr 45px;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+}
+
+.emo-name {
+    color: var(--text-secondary);
+}
+
+.progress-track {
+    width: 100%;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+.emo-percent {
+    text-align: right;
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+/* 3. NUTQ VA MATN TAHLILI */
+.live-transcript-box {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 14px;
+    min-height: 70px;
+    max-height: 120px;
+    overflow-y: auto;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--text-primary);
+    font-style: italic;
+}
+
+.keywords-status-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 12px;
+}
+
+.badge-tag {
+    background: rgba(16, 185, 129, 0.15);
+    color: var(--color-green);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 11px;
+}
+
+/* MODAL: YAKUNIY TAHLILIY HISOBOT */
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(5, 8, 17, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    padding: 20px;
+}
+
+.modal-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-window {
+    background: #0F172A;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: var(--radius-lg);
+    width: 100%;
+    max-width: 900px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--card-border);
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.modal-close-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 22px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.modal-close-btn:hover {
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* HISOBOT ELEMENTLARI */
+.report-meta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    padding: 16px;
+    border-radius: var(--radius-sm);
+}
+
+.meta-box span.title {
+    font-size: 11px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+.meta-box p.val {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-top: 2px;
+}
+
+.report-grade-card {
+    padding: 20px;
+    border-radius: var(--radius-md);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    border: 1px solid;
+}
+
+.report-grade-card.badge-success {
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.3);
+}
+
+.report-grade-card.badge-info {
+    background: rgba(56, 189, 248, 0.12);
+    border-color: rgba(56, 189, 248, 0.3);
+}
+
+.report-grade-card.badge-warning {
+    background: rgba(245, 158, 11, 0.12);
+    border-color: rgba(245, 158, 11, 0.3);
+}
+
+.report-grade-card.badge-danger {
+    background: rgba(239, 68, 68, 0.12);
+    border-color: rgba(239, 68, 68, 0.3);
+}
+
+.grade-big {
+    font-size: 48px;
+    font-weight: 900;
+    min-width: 70px;
+    text-align: center;
+}
+
+.grade-text h3 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.grade-text p {
+    font-size: 13px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.report-charts-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .report-charts-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.chart-card {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+}
+
+.chart-card h4 {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+}
+
+.chart-wrapper {
+    height: 220px;
+    position: relative;
+}
+
+/* SHUBHALI VOQEALAR RO'YXATI */
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.event-item {
+    display: grid;
+    grid-template-columns: 60px 1fr 70px;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    border-left: 3px solid;
+}
+
+.event-item.severity-high { border-left-color: var(--color-red); }
+.event-item.severity-medium { border-left-color: var(--color-yellow); }
+.event-item.severity-low { border-left-color: var(--color-blue); }
+
+.event-time { font-family: monospace; color: var(--text-muted); }
+.event-desc { color: var(--text-primary); }
+.event-badge { font-size: 10px; font-weight: 700; text-align: right; }
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding: 18px 28px;
+    border-top: 1px solid var(--card-border);
+    background: rgba(15, 23, 42, 0.5);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* O'QITUVCHI JURNALI JADVALI */
+.gradebook-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: rgba(255, 255, 255, 0.02);
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--card-border);
+}
+
+.gradebook-toolbar .search-box {
+    flex: 1;
+    min-width: 260px;
+}
+
+.gradebook-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--card-border);
+}
+
+.gradebook-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    text-align: left;
+}
+
+.gradebook-table th {
+    background: rgba(15, 23, 42, 0.9);
+    padding: 12px 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--card-border);
+    white-space: nowrap;
+}
+
+.gradebook-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    color: var(--text-primary);
+    white-space: nowrap;
+}
+
+.gradebook-table tr:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.grade-pill {
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 11px;
+    display: inline-block;
+}
+
+.grade-pill.A { background: rgba(16, 185, 129, 0.2); color: var(--color-green); border: 1px solid rgba(16, 185, 129, 0.4); }
+.grade-pill.B { background: rgba(56, 189, 248, 0.2); color: var(--color-blue); border: 1px solid rgba(56, 189, 248, 0.4); }
+.grade-pill.C { background: rgba(245, 158, 11, 0.2); color: var(--color-yellow); border: 1px solid rgba(245, 158, 11, 0.4); }
+.grade-pill.F { background: rgba(239, 68, 68, 0.2); color: var(--color-red); border: 1px solid rgba(239, 68, 68, 0.4); }
+
+.action-btn-sm {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--card-border);
+    color: var(--text-primary);
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 11px;
+    transition: var(--transition);
+}
+
+.action-btn-sm:hover {
+    background: var(--color-blue);
+    color: white;
+}
+
+.action-btn-sm.delete:hover {
+    background: var(--color-red);
+}
+
+/* PRINT STYLES */
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #reportModal, #reportModal * {
+        visibility: visible;
+    }
+    #reportModal {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white !important;
+        color: black !important;
+    }
+    .modal-window {
+        box-shadow: none;
+        border: none;
+        background: white !important;
+        color: black !important;
+    }
+    .modal-footer, .modal-close-btn {
+        display: none !important;
+    }
+}

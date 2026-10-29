@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeritasEdu - O'quvchilar Emotsiyasi va Haqiqiylik Tahlili Platformasi</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <div class="brand">
+            <div class="brand-icon">⚡</div>
+            <div>
+                <h1>VeritasEdu <span>AI Platforma</span></h1>
+                <p>O'quvchilar Emotsiyasi, Samimiylik va Yolg'on/Rost Tahlili Tizimi</p>
+            </div>
+        </div>
+
+        <div class="nav-status">
+            <button id="btnOpenGradebook" class="btn btn-secondary" style="padding: 6px 14px; font-size: 13px;">
+                📋 O'qituvchi Jurnali (<span id="gradebookCount">0</span>)
+            </button>
+            <span id="badgeAiStatus" class="status-pill warning">AI Modellar yuklanmoqda...</span>
+            <span id="badgeCamStatus" class="status-pill inactive">Kamera nofaol</span>
+            <span id="badgeMicStatus" class="status-pill inactive">Mikrofon nofaol</span>
+        </div>
+    </header>
+
+    <!-- ASOSIY KONTEYNER -->
+    <main class="main-container">
+
+        <!-- 1. O'QUVCHI VA MAVZU MA'LUMOTLARI -->
+        <section class="session-info-card">
+            <div class="info-form-grid">
+                <div class="form-group">
+                    <label for="inputStudentName">O'quvchi Ism-Familiyasi:</label>
+                    <input type="text" id="inputStudentName" class="form-control" placeholder="Masalan: Sardor Rustamov" value="Alisher Qodirov">
+                </div>
+                <div class="form-group">
+                    <label for="inputStudentClass">Sinf yoki Guruh:</label>
+                    <input type="text" id="inputStudentClass" class="form-control" placeholder="Masalan: 9-A sinf" value="10-A sinf">
+                </div>
+                <div class="form-group">
+                    <label for="inputTopic">Dars / Mavzu Nomi:</label>
+                    <input type="text" id="inputTopic" class="form-control" placeholder="Mavzuni kiriting..." value="O'zbekiston tarixi: Amir Temur davlati">
+                </div>
+                <div class="form-group">
+                    <label for="inputKeywords">Kalit so'zlar (vergul bilan):</label>
+                    <input type="text" id="inputKeywords" class="form-control" placeholder="temur, samarqand, 1370..." value="temur, samarqand, davlat, jang, 1370">
+                </div>
+            </div>
+
+            <!-- Tezkor mavzular (Presets) -->
+            <div class="presets-container">
+                <span class="preset-title">Tezkor namunalar:</span>
+                <button type="button" class="preset-btn" data-topic="O'zbekiston tarixi: Amir Temur davlati" data-keywords="temur, samarqand, poytaxt, davlat, 1370">🏛️ Tarix: Amir Temur</button>
+                <button type="button" class="preset-btn" data-topic="Fizika: Nyutonning 3 ta dinamika qonuni" data-keywords="nyuton, kuch, inersiya, massa, tezlanish, harakat">⚛️ Fizika: Nyuton qonunlari</button>
+                <button type="button" class="preset-btn" data-topic="Informatika: Sun'iy intellekt va neyron to'rlar" data-keywords="intellekt, neyron, algoritm, model, ma'lumot, o'rganish">💻 Informatika: AI asoslari</button>
+                <button type="button" class="preset-btn" data-topic="Adabiyot: Alisher Navoiy hayoti va ijodi" data-keywords="navoiy, xamsa, g'azal, doston, samarqand, hirot">📚 Adabiyot: Navoiy ijodi</button>
+            </div>
+        </section>
+
+        <!-- 2. ASOSIY DASHBOARD -->
+        <section class="dashboard-grid">
+
+            <!-- CHAP PANEL: VIDEO, HUD VA POLIGRAF -->
+            <div class="camera-card">
+                <!-- Video konteyneri -->
+                <div class="video-wrapper">
+                    <video id="webcam" playsinline autoplay muted></video>
+                    <canvas id="overlayCanvas"></canvas>
+
+                    <!-- HUD ustidagi ko'rsatkichlar -->
+                    <div class="hud-overlay">
+                        <div class="hud-pill timer">
+                            <span>⏱️</span>
+                            <span id="sessionTimer">00:00</span>
+                        </div>
+                        <div class="hud-pill gaze">
+                            <span id="gazeStatusBadge" class="badge success">✓ Markazda (Kamerada)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Jonli Poligraf / Kardiogramma EKG to'lqini -->
+                <div class="polygraph-container">
+                    <div class="polygraph-header">
+                        <span>Jonli Poligrafiya & Stress Monitori (EKG To'lqini)</span>
+                        <span>Pulse & Galvanic Wave</span>
+                    </div>
+                    <canvas id="polygraphCanvas"></canvas>
+                </div>
+
+                <!-- Boshqaruv tugmalari -->
+                <div class="controls-bar">
+                    <button id="btnStartCamera" class="btn btn-secondary">
+                        <span>📹</span> Kamerani yoqish
+                    </button>
+                    <button id="btnStartSession" class="btn btn-primary" disabled>
+                        <span>▶️</span> Nutqni / Imtihonni boshlash
+                    </button>
+                    <button id="btnStopSession" class="btn btn-danger hidden">
+                        <span>⏹️</span> Yakunlash va Hisobotni ko'rish
+                    </button>
+                    <button id="btnDemoMode" class="btn btn-secondary">
+                        <span>🎭</span> Demo rejimda sinash
+                    </button>
+                </div>
+            </div>
+
+            <!-- O'NG PANEL: DIAGNOSTIKA, YOLG'ON VA EMOTSIYALAR -->
+            <div class="analysis-panel">
+
+                <!-- 1. Yolg'on va Rostlik (Truth / Deception) Hisoblagichi -->
+                <div class="panel-card">
+                    <div class="card-title">
+                        <span>Haqiqiylik va Samimiylik Indeksi</span>
+                        <span class="badge-info">AI Polygraph</span>
+                    </div>
+
+                    <div class="polygraph-meter-wrapper">
+                        <!-- Aylanma tezlik o'lchagich (SVG Circular Gauge) -->
+                        <div class="gauge-box">
+                            <svg class="gauge-svg" width="140" height="140" viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="45"></circle>
+                                <circle id="truthGaugeCircle" class="gauge-progress" cx="50" cy="50" r="45"></circle>
+                            </svg>
+                            <div class="gauge-center-text">
+                                <div id="truthScoreVal" class="gauge-value">95%</div>
+                                <div class="gauge-label">Samimiylik</div>
+                            </div>
+                        </div>
+
+                        <!-- Holat tegi va ko'rsatkich -->
+                        <div class="meter-status-box">
+                            <span id="truthStatusBadge" class="status-badge-lg">ROST VA ISHONCHLI</span>
+                            <p style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">
+                                Ko'z harakati, mikromimika va ovoz tahlili natijasi
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Mini ko'rsatkichlar to'plami -->
+                    <div class="metrics-mini-grid">
+                        <div class="metric-item">
+                            <span class="lbl">👁️ Ko'z pirpirashi:</span>
+                            <span id="blinkRateVal" class="val">16 / daq</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="lbl">🎙️ Ovoz zo'riqishi:</span>
+                            <span id="voiceStressVal" class="val">12%</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="lbl">👤 Bosh holati:</span>
+                            <span id="headStabilityVal" class="val">Barqaror</span>
+                        </div>
+                        <div class="metric-item">
+                            <span class="lbl">⚡ Anomaliyalar:</span>
+                            <span class="val" style="color: var(--color-blue);">Avtomatik nazorat</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Yuz Emotsiyalari Tahlili -->
+                <div class="panel-card">
+                    <div class="card-title">
+                        <span>Yuzdagi Emotsiyalar Tahlili</span>
+                        <span class="badge-info">7 xil his-tuyg'u</span>
+                    </div>
+
+                    <!-- Dominant his-tuyg'u -->
+                    <div class="dominant-emotion-banner">
+                        <div id="dominantEmotionEmoji" class="dominant-emoji">😐</div>
+                        <div class="dominant-info">
+                            <h4 id="dominantEmotionName">Xotirjam (Neytral)</h4>
+                            <p>Hozirgi ustun emotsiya: <strong id="dominantEmotionScore" style="color: var(--color-blue);">85%</strong></p>
+                        </div>
+                    </div>
+
+                    <!-- 7 ta emotsiya barlari -->
+                    <div class="emotion-bars-list">
+                        <!-- Neutral -->
+                        <div class="emo-bar-row">
+                            <span class="emo-name">😐 Xotirjam</span>
+                            <div class="progress-track"><div id="bar-neutral" class="progress-fill" style="width: 70%; background-color: #64748B;"></div></div>
+                            <span id="pct-neutral" class="emo-percent">70%</span>
+                        </div>
+                        <!-- Happy -->
+                        <div class="emo-bar-row">
+                            <span class="emo-name">😊 Quvonch</span>
+                            <div class="progress-track"><div id="bar-happy" class="progress-fill" style="width: 20%; background-color: #10B981;"></div></div>
+                            <span id="pct-happy" class="emo-percent">20%</span>
+                        </div>
+                        <!-- Fear -->
+                        <div class="emo-bar-row">
+                            <span class="emo-name">😰 Xavotir</span>
+                            <div class="progress-track"><div id="bar-fear" class="progress-fill" style="width: 5%; background-color: #F59E0B;"></div></div>
+                            <span id="pct-fear" class="emo-percent">5%</span>
+                        </div>
+                        <!-- Surprised -->
+                        <div class="emo-bar-row">
+                            <span class="emo-name">😲 Hayrat</span>
+                            <div class="progress-track"><div id="bar-surprised" class="progress-fill" style="width: 2%; background-color: #3B82F6;"></div></div>
+                            <span id="pct-surprised" class="emo-percent">2%</span>
+                        </div>
+                        <!-- Sad -->
+                        <div class="emo-bar-row">
+                            <span class="emo-name">😢 Qayg'u</span>
+                            <div class="progress-track"><div id="bar-sad" class="progress-fill" style="width: 1%; background-color: #6366F1;"></div></div>
+                            <span id="pct-sad" class="emo-percent">1%</span>
+                        </div>
+                        <!-- Angry -->
+                        <div class="emo-bar-row">
+                            <span class="emo-name">😠 Asabiylik</span>
+                            <div class="progress-track"><div id="bar-angry" class="progress-fill" style="width: 1%; background-color: #EF4444;"></div></div>
+                            <span id="pct-angry" class="emo-percent">1%</span>
+                        </div>
+                        <!-- Disgusted -->
+                        <div class="emo-bar-row">
+                            <span class="emo-name">😒 Noqulaylik</span>
+                            <div class="progress-track"><div id="bar-disgusted" class="progress-fill" style="width: 1%; background-color: #8B5CF6;"></div></div>
+                            <span id="pct-disgusted" class="emo-percent">1%</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. Jonli Nutq Matni va Mavzuga moslik -->
+                <div class="panel-card">
+                    <div class="card-title">
+                        <span>Jonli Nutq Matni (Transkripsiya)</span>
+                        <span class="badge-info">Speech-To-Text</span>
+                    </div>
+
+                    <div id="liveTranscript" class="live-transcript-box">
+                        O'quvchi gapirganda uning so'zlari ushbu maydonda avtomatik ravishda matnga aylanadi...
+                    </div>
+
+                    <div class="keywords-status-row">
+                        <span style="color: var(--text-muted);">Mavzuga oid aytilgan so'zlar:</span>
+                        <div id="matchedKeywords">
+                            <span style="color: var(--text-muted); font-size: 11px;">(Hali aniqlanmadi)</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- MODAL: YAKUNIY TAHLILIY HISOBOT -->
+    <div id="reportModal" class="modal-backdrop">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h2>📊 O'quvchining Tahliliy Yakuniy Hisoboti</h2>
+                <button id="btnCloseReport" class="modal-close-btn">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- O'quvchi va Sessiya metama'lumotlari -->
+                <div class="report-meta-grid">
+                    <div class="meta-box">
+                        <span class="title">O'quvchi:</span>
+                        <p id="repStudentName" class="val">Alisher Qodirov</p>
+                    </div>
+                    <div class="meta-box">
+                        <span class="title">Sinf / Guruh:</span>
+                        <p id="repStudentClass" class="val">10-A sinf</p>
+                    </div>
+                    <div class="meta-box">
+                        <span class="title">Mavzu:</span>
+                        <p id="repTopic" class="val">O'zbekiston tarixi</p>
+                    </div>
+                    <div class="meta-box">
+                        <span class="title">Davomiyligi:</span>
+                        <p id="repDuration" class="val">01:45</p>
+                    </div>
+                    <div class="meta-box">
+                        <span class="title">Sana:</span>
+                        <p id="repDate" class="val">29.10.2026</p>
+                    </div>
+                </div>
+
+                <!-- Katta Baholash Kartasi -->
+                <div id="repGradeCard" class="report-grade-card badge-success">
+                    <div id="repGrade" class="grade-big">A+</div>
+                    <div class="grade-text">
+                        <h3 id="repGradeTitle">A'LO - TO'LIQ ISHONCHLI VA SAMIMIY</h3>
+                        <p id="repGradeDesc">O'quvchi mavzuni mukammal o'zlashtirgan. Nutq davomida kamera bilan barqaror vizual aloqa saqlab turildi.</p>
+                    </div>
+                </div>
+
+                <!-- Asosiy indikatorlar bloki -->
+                <div class="report-meta-grid">
+                    <div class="meta-box">
+                        <span class="title">O'rtacha Samimiylik:</span>
+                        <p id="repTruthScore" class="val" style="color: var(--color-green);">94%</p>
+                    </div>
+                    <div class="meta-box">
+                        <span class="title">Ko'z pirpirashi:</span>
+                        <p id="repBlinkRate" class="val">18 / daq</p>
+                    </div>
+                    <div class="meta-box">
+                        <span class="title">Jami aytilgan so'zlar:</span>
+                        <p id="repWordCount" class="val">142 ta</p>
+                    </div>
+                    <div class="meta-box">
+                        <span class="title">Nutq tezligi:</span>
+                        <p id="repWpm" class="val">95 so'z/daq</p>
+                    </div>
+                </div>
+
+                <!-- Grafiklar (Chart.js) -->
+                <div class="report-charts-grid">
+                    <div class="chart-card">
+                        <h4>His-tuyg'ular Taqsimoti (%)</h4>
+                        <div class="chart-wrapper">
+                            <canvas id="chartEmotions"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-card">
+                        <h4>Samimiylik va Stress Dinamikasi</h4>
+                        <div class="chart-wrapper">
+                            <canvas id="chartTimeline"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shubhali lahzalar ro'yxati -->
+                <div>
+                    <h4 style="font-size: 15px; margin-bottom: 10px;">⚠️ Shubhali Lahzalar va Anomaliyalar Logi</h4>
+                    <div id="repEventsList" class="events-list">
+                        <!-- JS orqali to'ldiriladi -->
+                    </div>
+                </div>
+
+                <!-- Nutqning to'liq matni -->
+                <div>
+                    <h4 style="font-size: 15px; margin-bottom: 10px;">📝 Nutq Transkripsiyasi</h4>
+                    <div id="repTranscript" class="live-transcript-box" style="max-height: 140px;">
+                        <!-- Matn -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btnExportJson" class="btn btn-secondary">💾 JSON Ma'lumotlarni yuklab olish</button>
+                <button id="btnPrintReport" class="btn btn-primary">🖨️ Hisobotni Chop etish / PDF</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: O'QITUVCHI JURNALI VA SINF NATIJALARI -->
+    <div id="gradebookModal" class="modal-backdrop">
+        <div class="modal-window" style="max-width: 1050px;">
+            <div class="modal-header">
+                <div>
+                    <h2>📋 O'qituvchi Jurnali: Barcha O'quvchilar Natijalari</h2>
+                    <p style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">
+                        Har bir o'quvchining emotsiyasi, rostlik darajasi va yakuniy baholari avtomatik saqlanadi
+                    </p>
+                </div>
+                <button id="btnCloseGradebook" class="modal-close-btn">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Filtrlar va Excel eksport paneli -->
+                <div class="gradebook-toolbar">
+                    <div class="search-box">
+                        <input type="text" id="inputGradeSearch" class="form-control" placeholder="🔍 O'quvchi ismi yoki sinf bo'yicha qidirish...">
+                    </div>
+                    <div class="gradebook-actions">
+                        <button id="btnExportExcel" class="btn btn-primary" style="padding: 8px 16px; font-size: 13px;">
+                            📥 Excel (CSV) ga yuklab olish
+                        </button>
+                        <button id="btnClearGradebook" class="btn btn-secondary" style="padding: 8px 14px; font-size: 13px; color: var(--color-red);">
+                            🗑️ Tozalash
+                        </button>
+                    </div>
+                </div>
+
+                <!-- O'quvchilar jadvali -->
+                <div class="table-responsive">
+                    <table class="gradebook-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>O'quvchi Ismi</th>
+                                <th>Sinf / Guruh</th>
+                                <th>Mavzu</th>
+                                <th>Sana / Vaqt</th>
+                                <th>Samimiylik</th>
+                                <th>Baho</th>
+                                <th>Yetakchi Emotsiya</th>
+                                <th>Shubhali Holat</th>
+                                <th style="text-align: center;">Amallar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gradebookTableBody">
+                            <!-- JS orqali to'ldiriladi -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button id="btnCloseGradebookFooter" class="btn btn-secondary">Yopish</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SKRIPTLAR (Lokal yuklanadi, offline rejimda ham ishlaydi) -->
+    <script src="js/chart.min.js"></script>
+    <script src="js/face-api.min.js"></script>
+    <script src="js/audio-analyzer.js"></script>
+    <script src="js/lie-detector.js"></script>
+    <script src="js/polygraph-visualizer.js"></script>
+    <script src="js/speech-to-text.js"></script>
+    <script src="js/report-generator.js"></script>
+    <script src="app.js"></script>
+
+</body>
+</html>
